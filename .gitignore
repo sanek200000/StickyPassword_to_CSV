@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# my
+SP_UZI.*
+data.json
+
 # C extensions
 *.so
 
