@@ -79,18 +79,19 @@ def make_json_from_txt(filename: str) -> None:
         
     return data_accounts        
 
-def make_csv(to_csv: list[dict]) -> None:
+def make_csv(to_csv: list[dict], filename: str = 'sticky_db.csv') -> None:
     """Функция конвертирует список словарей в CSV и сохраняет в sticky_db.csv
 
     Args:
         to_csv (list[dict]): список словарей с данными аккаунтов
+        filename (str): путь к выходному файлу CSV
     """
     keys = to_csv[0].keys()
-    with open('sticky_db.csv', 'w', newline='', encoding='utf-8') as output_file:
+    with open(filename, 'w', newline='', encoding='utf-8') as output_file:
         dict_writer = csv.DictWriter(output_file, fieldnames=keys, quotechar='"', quoting=csv.QUOTE_ALL)
         dict_writer.writeheader()
         dict_writer.writerows(to_csv)
 
 if __name__ == "__main__":
     data = make_json_from_txt(filename="SP_UZI.txt")
-    make_csv(data)
+    make_csv(to_csv=data)
