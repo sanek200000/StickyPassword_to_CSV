@@ -13,7 +13,8 @@ def make_dict(data: list[str]) -> dict:
     """
     tmp = {i.split(': ')[0]: i.split(': ')[-1].strip() for i in data}
     
-    res = {"Group": "Корень/Учетные записи интернета"}
+    #res = {"Group": "Корень/Учетные записи интернета"}
+    res = dict()
     res["Title"] = tmp.get('Имя учетной записи')
     res["Username"] = tmp.get('Имя пользователя')
     res["Password"] = tmp.get('Пароль')
@@ -41,8 +42,10 @@ def make_list_of_dicts(data: list[str]) -> list[dict]:
         if i.startswith("Имя пользователя:") and tmp:
             res.append(make_dict(tmp))
             tmp = first_two_string[:]
+            tmp[0] += f"{tmp[0]} by {i.split('Имя пользователя:')[-1].strip()}"
         elif i.startswith("Имя пользователя:"):
             tmp = first_two_string[:]
+            tmp[0] += f"{tmp[0]} by {i.split('Имя пользователя:')[-1].strip()}"
         tmp.append(i)
     res.append(make_dict(tmp))
     return res
@@ -84,7 +87,7 @@ def make_csv(to_csv: list[dict]) -> None:
     """
     keys = to_csv[0].keys()
     with open('sticky_db.csv', 'w', newline='', encoding='utf-8') as output_file:
-        dict_writer = csv.DictWriter(output_file, keys)
+        dict_writer = csv.DictWriter(output_file, fieldnames=keys, quotechar='"', quoting=csv.QUOTE_ALL)
         dict_writer.writeheader()
         dict_writer.writerows(to_csv)
 
